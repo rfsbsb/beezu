@@ -1,0 +1,246 @@
+*, html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-size: 12px;
+	font-family: Verdana,Arial, Helvetica;
+	background-color:#EBEBEB;
+}
+
+.dialog {
+  display: none;
+}
+
+#sidebar button {
+	background-color: transparent;
+	border: none;
+	width: 60px;
+	height: 60px;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	outline: none;
+}
+
+
+#sidebar button.selected {
+	border-width:15px 10px 15px 15px;
+	border-style:solid;
+	border-color:transparent #EBEBEB transparent transparent ;
+	z-index: 0;
+}
+
+#sidebar #write {
+  position: absolute;
+  bottom: 0px;
+}
+
+#sidebar {
+	background-color: #222222;
+	width: 60px;
+	float: left;
+	height: 100%;
+	position: fixed;
+}
+
+#river {
+	height:100%;
+	padding-left: 70px;
+	padding-top: 10px;
+}
+
+#river .post {
+	padding-top: 10px;
+	margin-bottom: -35px;
+}
+
+#river .re-me .text{
+  background-color: #E6EEFF;
+}
+
+#river .post .rt{
+  background: url(../img/retw.png) no-repeat left top;
+  padding-left: 18px;
+}
+#river .post .photo {
+	width: 50px;
+	height: 50px;
+	z-index: 1;
+}
+
+#river .post .photo img {
+	border-radius: 10px;
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+	z-index: 2;
+  -webkit-box-reflect:below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.6, transparent), to(rgba(0,0,0, 0.6)));
+}
+
+#river .text{
+	top: -54px;
+	background: white;
+	border: 3px solid #95A3B7;
+	border-radius: 10px;
+	color: #333;
+	padding: 10px;
+	position: relative;
+	margin-left: 110px;
+	word-wrap: break-word;
+}
+
+#river .text a {
+  color: #666;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#river .text a:hover {
+  color: #95A3B7;
+  font-weight: bold;
+}
+
+#river .text .bar {
+	margin-top: -6px;
+	margin-bottom: 5px;
+}
+
+#river .text .username {
+	font-weight: bold;
+}
+
+#river .text .timeago {
+	color: #99a0a3;
+	float: right;
+}
+
+#river .text .icons{
+  display: none;
+	float: right;
+}
+
+#river .text .extra span{
+  font-size: 10px;
+  display: block;
+  margin-top: 5px;
+}
+
+/* Bubble with a border rather than solid colour
+------------------------------------------ */
+#river .text {
+	position:relative;
+	padding:10px;
+	margin:0;
+	border:3px solid #95A3B7;
+	color:#333;
+	background:#fff;
+	/* css3 */
+	border-radius:10px;
+}
+
+/* creates the larger triangle */
+#river .text:before {
+	content:"\00a0";
+	display:block; /* reduce the damage in FF3.0 */
+	position:absolute;
+	bottom:-40px; /* value = - border-top-width - border-bottom-width */
+	left:40px; /* controls horizontal position */
+	width:0;
+	height:0;
+	border:20px solid transparent;
+	border-top-color:#95A3B7;
+	z-index: 0;
+}
+
+/* creates the smaller  triangle */
+#river .text:after {
+	content:"\00a0";
+	display:block; /* reduce the damage in FF3.0 */
+	position:absolute;
+	bottom:-26px; /* value = - border-top-width - border-bottom-width */
+	left:47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
+	width:0;
+	height:0;
+	border:13px solid transparent;
+	border-top-color:#fff;
+	z-index: 0;
+}
+
+#river .text.left {
+	margin-left: 73px;
+	margin-right: 10px;
+}
+
+/* creates the larger triangle */
+#river .text.left:before {
+	top:10px; /* controls vertical position */
+	left:-23px; /* value = - border-left-width - border-right-width */
+	bottom:auto;
+	border-width:13px 23px 13px 0px;
+	border-style:solid;
+	border-color:transparent #95A3B7 transparent red;
+	z-index: 0;
+}
+
+/* creates the smaller  triangle */
+#river .text.left:after {
+	top:15px; /* value = (:before top) + (:before border-top) - (:after border-top) */
+	left:-17px; /* value = - border-left-width - border-right-width */
+	bottom:auto;
+	border-width:8px 17px 8px 0px;
+	border-style:solid;
+	border-color:transparent #fff transparent transparent;
+	z-index: 0;
+}
+#river .re-me .text.left:after{
+  border-color:transparent #E6EEFF transparent transparent;
+}
+
+#river .post .photo.own {
+  float: right;
+  margin-right: 10px
+}
+
+#river .text.right {
+	margin-right: 83px;
+  margin-top: 50px;
+}
+
+/* creates the larger triangle */
+#river .text.right:before {
+	top:10px; /* controls vertical position */
+	left:auto; /* value = - border-left-width - border-right-width */
+	right: -23px;
+	bottom:auto;
+	border-width: 13px 0px 13px 23px;
+	border-style:solid;
+	border-color:transparent transparent transparent #95A3B7;
+	z-index: 0;
+  
+}
+
+/* creates the smaller  triangle */
+#river .text.right:after {
+	top:15px; /* value = (:before top) + (:before border-top) - (:after border-top) */
+	left:auto; /* value = - border-left-width - border-right-width */
+	right: -17px;
+	bottom:auto;
+	border-width:8px 0px 8px 17px;
+	border-style:solid;
+	border-color:transparent transparent transparent #fff;
+	z-index: 0;
+}
+
+#river .re-me .text.right:after{
+  border-color:transparent transparent transparent #E6EEFF;
+}
+
+#mentions_timeline {
+  display: none;
+}
+
+.ui-dialog {
+  position: fixed;
+}

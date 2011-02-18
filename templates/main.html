@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>Beezu</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="js/jqui/css/vader/jquery-ui-1.8.6.custom.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8">
+    <script type="text/javascript" src="js/jqui/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="js/jqui/js/jquery-ui-1.8.6.custom.min.js"></script>
+
+    <script type="text/javascript" src="js/jquery.shortkeys.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </head>
+  <body>
+    <!-- main -->
+    <div id="main">
+      <!-- sidebar left. Tabs -->
+      <div id="sidebar">
+        <button id="home" class="selected">
+          <img src="img/home.png" />
+        </button>
+        <button id="mentions">
+          <img src="img/mentions.png" />
+        </button>
+        <button id="direct">
+          <img src="img/direct.png" />
+        </button>
+        <button id="search">
+          <img src="img/search.png" />
+        </button>
+        <button id="write">
+          <img src="img/write.png" />
+        </button>
+      </div>
+      <!-- river of tweets-->
+      <div id="river" class="simple">
+        <div id="home_timeline">
+$home_tweets
+        </div>
+        <div id="mentions_timeline">
+$mentions
+        </div>
+        <div id="direct_timeline">
+$mentions
+        </div>
+        <div id="search_timeline">
+$mentions
+        </div>
+      </div>
+    </div>
+
+    <div id="profile" class="dialog" title="O titulo do dialogo">
+      <p>Adding the modal overlay screen makes the dialog look more prominent because it dims out the page content.</p>
+    </div>
+
+    <div id="message" class="dialog" title="Send a new message">
+      <textarea cols="35" rows="4" id="text-msg">Type your message here.</textarea>
+    </div>
+
+
+  </body>
+</html>
