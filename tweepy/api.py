@@ -77,6 +77,14 @@ class API(object):
         allowed_param = ['id', 'count', 'page'],
         require_auth = True
     )
+	
+    """/related_results/show/:id.format"""
+    related_results = bind_api(
+        path = '/related_results/show/{id}.json',
+        payload_type = 'relation', payload_list = True,
+        allowed_param = ['id'],
+        require_auth = False
+	)
 
     """/statuses/:id/retweeted_by/ids.format"""
     retweeted_by_ids = bind_api(
@@ -299,8 +307,10 @@ class API(object):
                 payload_type = 'user',
                 require_auth = True
             )(self)
-        except TweepError:
-            return False
+        except TweepError, e:
+            if e.response and e.response.status == 401:
+                return False
+            raise
 
     """ account/rate_limit_status """
     rate_limit_status = bind_api(

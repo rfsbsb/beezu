@@ -32,12 +32,22 @@ class Twitter:
     
     client_token = config.get('Client', 'token')
     client_secret = config.get('Client', 'secret')
-    auth = tweepy.OAuthHandler(client_token, client_secret)
+    
     user_token = config.get('User', 'token')
     user_secret = config.get('User', 'secret')
+
+    auth = tweepy.OAuthHandler(client_token, client_secret)
     auth.set_access_token(user_token, user_secret)
 
     self.twitter = tweepy.API(auth)  
+    self.twitter.secure = True
+    
+  def get_fav_ids(self):
+    user_favs = self.twitter.favorites()
+    if len(user_favs) > 0:
+      return [str(twitt.id) for twitt in user_favs]
+    else:
+      return []
 
 
 #beezu class
@@ -60,20 +70,13 @@ class Beezu:
     self.browser.connect('title-changed',self.alterou)
     
     gobject.idle_add(self.browser_content)
-    
-
-    #path = "file://"+os.getcwd()+"/templates/"
-    #content = self.browser_content()
-    #browser.load_string(content, "text/html", "utf-8", path)
-    #print content
-
 
     self.swin.add(self.browser)
     self.win.show_all()
 
   def alterou (self, view, frame, title):
-    if title != "null":
-      print "clicou "+title
+    if title != "null" and title != "Beezu":
+      self.t.twitter.update_status(title)
 
 
   def open_link(self, view, frame, req, data=None, x=None):
@@ -88,7 +91,8 @@ class Beezu:
         return True
       #user clicked on retweet
       if (uri.startswith("retweet://")):
-        print "retweet"
+        rt_id = uri.split("retweet://")[1]
+        self.t.twitter.retweet(rt_id)
         return True      
       #user clicked on old RT
       if (uri.startswith("rt://")):
@@ -99,7 +103,12 @@ class Beezu:
         return True
       #user clicked on favorite icon
       if (uri.startswith("fav://")):
-        print "favorite"
+        rt_id = uri.split("fav://")[1]
+        #if alredy favorited, destroy it. Otherwise, favorite it
+        if rt_id in self.t.get_fav_ids():
+          self.t.twitter.destroy_favorite(rt_id)
+        else:
+          self.t.twitter.create_favorite(rt_id)
         return True
     return False
   

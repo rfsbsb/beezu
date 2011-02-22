@@ -14,7 +14,6 @@ $(document).ready(function() {
   function send(msg) {
     document.title = "null";
     document.title = msg;
-    alert(msg)
   }
 
   /*
@@ -49,7 +48,7 @@ $(document).ready(function() {
       resizable: false,
       buttons: {
         "Enviar": function() {
-          send("titulo");
+          send($('#text-msg').val());
           $(this).dialog("close");
         }
       }
