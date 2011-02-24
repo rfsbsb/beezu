@@ -1,14 +1,3 @@
-function retweet(text) {
-  if (text != '') {
-    var username = $('#'+text+' .username').text()
-    var body = $('#'+text+' .text-body').text()
-    var text = 'RT: @'+ username + " "+ jQuery.trim(body)
-  }
-  $('#text-msg').val(text);
-  $("#write").click()
-
-}
-  
 $(document).ready(function() {
 
   function send(msg) {
@@ -96,6 +85,41 @@ $(document).ready(function() {
       }
     });
   });
+  
+  //toggle favicon
+  $(".fav-icon").click(function(){
+    src = $(this).attr('src');
+    if (src == 'img/fav.png'){
+      $(this).attr('src','img/unfav.png')
+    } else {
+      $(this).attr('src','img/fav.png')
+    }
+  });
+
+  //toggle retweet icon
+  $(".retweet-icon").click(function(){
+    src = $(this).attr('src');
+    if (src == 'img/retweet.png'){
+      $(this).attr('src','img/retweeted.png')
+    } else {
+      $(this).attr('src','img/retweet.png')
+    }
+  });
+  
+  //fill in the message box with RT text
+  $(".rt-icon").click(function(){
+    text = ''
+    id = $(this).parents("div.post").attr('id');
+    if (id != '') {
+      var username = $('#'+id+' .username').text()
+      var body = $('#'+id+' .text-body').text()
+      var text = 'RT: @'+ username + " "+ jQuery.trim(body)
+    }
+    $('#text-msg').val(text);
+    $("#write").click()
+  })
+  
+  
 
   $('.username').click(function() {
     alert('clique no username.');

@@ -96,10 +96,6 @@ class Beezu:
         return True      
       #user clicked on old RT
       if (uri.startswith("rt://")):
-        script = """
-           retweet('%s') 
-        """ % uri.split("rt://")[1]
-        self.browser.execute_script(script )
         return True
       #user clicked on favorite icon
       if (uri.startswith("fav://")):
