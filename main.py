@@ -166,8 +166,6 @@ class Beezu:
     home_timeline     = self.t.twitter.home_timeline(count=50)
     mentions_timeline = self.t.twitter.mentions(count=50)
     direct_timeline   = self.t.twitter.direct_messages(count=50)
-    import pdb
-    pdb.set_trace()
     home_tweets       = self.post_content(home_timeline)
     mentions_tweets   = self.post_content(mentions_timeline)
     direct_tweets     = self.post_content(direct_timeline)
