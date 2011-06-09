@@ -12,6 +12,7 @@ if __name__ == "__main__":
     consumer_key = raw_input('Consumer key: ').strip()
     consumer_secret = raw_input('Consumer secret: ').strip()
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.secure = True
 
     # Open authorization URL in browser
     webbrowser.open(auth.get_authorization_url())

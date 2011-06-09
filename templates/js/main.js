@@ -4,30 +4,35 @@ $(document).ready(function() {
     document.title = "null";
     document.title = msg;
   }
+  
+  function hide_show(show){
+    $("#river").find('.active').fadeOut();
+    $("#"+show+"_timeline").delay(400).fadeIn();
+    $("#river").find('.active').removeClass("active");
+    $("#"+show+"_timeline").addClass("active")
+
+    $("#sidebar").find('.selected').removeClass("selected");
+    $("#"+show).addClass("selected")
+
+  }
 
   /*
     Tabs functions
   */
   $("#home").click(function(){
-    $("#mentions_timeline").fadeOut();
-    $("#home_timeline").delay(400).fadeIn();
-    $("button#home").addClass("selected")
-    $("button#mentions").removeClass("selected");
+    hide_show(this.id)
   });
 
   $("#mentions").click(function(){
-    $("#home_timeline").fadeOut();
-    $("#mentions_timeline").delay(400).fadeIn();
-    $("#mentions").addClass("selected")
-    $("#home").removeClass("selected");
+    hide_show(this.id)
   });
 
   $("#direct").click(function(){
-    alert("direct ok");
+    hide_show(this.id)
   });
 
   $("#search").click(function(){
-    alert("search ok");
+    hide_show(this.id)
   });
   
   $("#write").click(function(){

@@ -25,7 +25,7 @@ except:
 #twitter class
 class Twitter:
 
-  def __init__(self):
+  def __init__(self, secure=True):
     #starting the twitter part
     config = ConfigParser.RawConfigParser()
     config.read('beezu.cfg')    
@@ -36,11 +36,11 @@ class Twitter:
     user_token = config.get('User', 'token')
     user_secret = config.get('User', 'secret')
 
-    auth = tweepy.OAuthHandler(client_token, client_secret)
+    auth = tweepy.OAuthHandler(client_token, client_secret, secure=True)
     auth.set_access_token(user_token, user_secret)
 
-    self.twitter = tweepy.API(auth)  
-    self.twitter.secure = True
+    self.twitter = tweepy.API(auth, secure=secure)
+
     
   def get_fav_ids(self):
     user_favs = self.twitter.favorites()
@@ -116,6 +116,10 @@ class Beezu:
       rt_class  = ""
       mod_class = ""
       owner = ""
+      # in case it's a DM  
+      if hasattr(t,"sender"):
+        t.author = t.sender
+
       if (t.author.screen_name == self.myself):
         owner = "own"
         direction = "right"
@@ -123,18 +127,24 @@ class Beezu:
         direction = "left"
 
       #retweeted
-      if (hasattr(t,"retweeted_status")):
+      if hasattr(t,"retweeted_status"):
         rt_class = "rt"
         opt_text = "Retweeted by "+self.do_links("@"+t.author.name)
         t.author = t.retweeted_status.author
         t.text   = t.retweeted_status.text
 
-      if (t.in_reply_to_status_id):
+      favorited_icon = 'fav'
+      # alerdy favorited, change icon
+      if hasattr(t,"favorited") and t.favorited:
+        favorited_icon = 'unfav'
+
+      if hasattr(t,"in_reply_to_status_id") and t.in_reply_to_status_id:
         opt_text = "In reply to "+t.in_reply_to_screen_name
-        #if contains a mention to the user, use a different color
+
+      #if contains a mention to the user, use a different color
       if t.text.find("@"+self.myself) >= 0:
         mod_class = "re-me"
-  
+
       post = post_tpl.substitute(
             pid       = t.id,
             photo     = t.author.profile_image_url,
@@ -145,7 +155,8 @@ class Beezu:
             opt_text  = opt_text,
             rt_class  = rt_class,
             mod_class = mod_class,
-            post      = self.do_links(t.text)
+            post      = self.do_links(t.text),
+            favorited = favorited_icon
       )
       posts += post
     return posts
@@ -154,17 +165,21 @@ class Beezu:
     base_tpl = Template(open('./templates/main.html', 'r').read())
     home_timeline     = self.t.twitter.home_timeline(count=50)
     mentions_timeline = self.t.twitter.mentions(count=50)
+    direct_timeline   = self.t.twitter.direct_messages(count=50)
+    import pdb
+    pdb.set_trace()
     home_tweets       = self.post_content(home_timeline)
     mentions_tweets   = self.post_content(mentions_timeline)
-    doc = base_tpl.substitute(home_tweets = home_tweets, mentions = mentions_tweets)
+    direct_tweets     = self.post_content(direct_timeline)
+    doc = base_tpl.substitute(home_tweets = home_tweets, mentions = mentions_tweets, direct = direct_tweets, search='')
     path = "file://"+os.getcwd()+"/templates/"
     self.browser.load_string(doc, "text/html", "utf-8", path)
     print doc
 
   def do_links(self,tweet):
     tweet = re.sub(r"(([\w]+?://[\w\#$%&~.\-;:=,?@\[\]+]*)(/[\w\#$%&~/.\-;:=,?@\[\]+]*)?)", lambda al: "<a href=\""+al.group(0)+"\">"+al.group(0)+"</a>",tweet)
-    tweet = re.sub(r"@([a-zA-Z0-9]*)", lambda al: "<a href=\"http://twitter.com/"+al.group(1)+"\" title=\""+al.group(0)+"\" >"+al.group(0)+"</a>",tweet)
-    tweet = re.sub(r"#([a-üA-Ü0-9]*)", lambda al: "<a href=\"http://search.twitter.com/"+al.group(0)+"\" title=\""+al.group(0)+"\">"+al.group(0)+"</a>",tweet)
+    tweet = re.sub(r"@([a-zA-Z0-9_]*)", lambda al: "<a href=\"http://twitter.com/"+al.group(1)+"\" title=\""+al.group(0)+"\" >"+al.group(0)+"</a>",tweet)
+    tweet = re.sub(r"#([a-üA-Ü0-9_]*)", lambda al: "<a href=\"http://search.twitter.com/"+al.group(0)+"\" title=\""+al.group(0)+"\">"+al.group(0)+"</a>",tweet)
     return tweet
     
   def quit(self, sender):

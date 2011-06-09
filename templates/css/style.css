@@ -241,6 +241,14 @@ body {
   display: none;
 }
 
+#direct_timeline {
+  display: none;
+}
+
+#search_timeline {
+  display: none;
+}
+
 .ui-dialog {
   position: fixed;
 }
